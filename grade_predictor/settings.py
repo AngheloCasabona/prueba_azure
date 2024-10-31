@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY ='&%k_b=1#l5ctelv*u7&9y^)2(%rpz1bnnl%!(gb34jjbu$+r=p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['djangowebappmp01.azurewebsites.net']
 CSRF_TRUSTED_ORIGINS = ['https://djangowebappmp01.azurewebsites.net']
