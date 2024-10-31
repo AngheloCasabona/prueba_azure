@@ -9,7 +9,7 @@ WIBBLE2 = 'Wibble2'
 # TO-DO ADD IT 
 # CSRF_TRUSTED_ORIGINS = ['https://*']
 # TO-DO once deployed from VS code
-CSRF_TRUSTED_ORIGINS = ['https://djangowebappmp01.azurewebsites.net','*']
+CSRF_TRUSTED_ORIGINS = ['https://djangowebappmp01.azurewebsites.net']
 
 # TO-ADD -- uncomment
 

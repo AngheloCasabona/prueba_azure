@@ -28,6 +28,7 @@ SECRET_KEY ='&%k_b=1#l5ctelv*u7&9y^)2(%rpz1bnnl%!(gb34jjbu$+r=p'
 DEBUG = True
 
 ALLOWED_HOSTS = ['djangowebappmp01.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ['https://djangowebappmp01.azurewebsites.net']
 
 # Application definition
 
