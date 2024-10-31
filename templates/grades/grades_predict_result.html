@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% block page_content %}
+  <div class="container" id="page-container">
+
+    <div class="row shadow-lg p-3 mb-5 rounded" id="header-container">
+      <h1 class="display-1 text-center fw-bold">Resultado de la Predicción</h1>
+    </div>
+    <div class="row shadow-lg p-3 mb-5 rounded" id="form-container">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <form class="row g-3" action="/grades/save" method="post" onsubmit="return validateForm()">
+          {% csrf_token %}
+          
+          <h3 class="col-12" style="padding-top: 2rem; font-weight: bold;">Datos Generales:</h3>
+          <fieldset>
+            <div class="col-12">
+              <label for="{{ form.student_code.id_for_label }}" class="form-label">Código de Estudiante:</label>
+              {{ form.student_code }}
+            </div>
+            <div class="col-12">
+              <label for="{{ form.name.id_for_label }}" class="form-label">Nombres y Apellidos:</label>
+              {{ form.name }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.year.id_for_label }}" class="form-label">Año:</label>
+              {{ form.year }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.period.id_for_label }}" class="form-label">Periodo:</label>
+              {{ form.period }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.course.id_for_label }}" class="form-label">Curso:</label>
+              {{ form.course }}
+            </div>
+            <div class="col-12">
+              <label for="{{ form.predicted_evaluation.id_for_label }}" class="form-label" style="padding-top: 3rem; font-weight: bold; font-size: 20px;">Evaluación de la IA:</label>
+              {{ form.predicted_evaluation }}
+            </div>
+          </fieldset>
+          <fieldset style="display: none;">
+            <div class="col-6">
+              <label for="{{ form.gender.id_for_label }}" class="form-label">Género:</label>
+              {% for radio in form.gender %}
+                <div class="form-check">
+                  {{ radio.tag }}
+                  <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.age.id_for_label }}" class="form-label">Edad:</label>
+              {{ form.age }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.grade.id_for_label }}" class="form-label">Grado/Año:</label>
+              {{ form.grade }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.family_size.id_for_label }}" class="form-label">Cant. personas en la familia:</label>
+              {{ form.family_size }}
+            </div>
+
+            <div class="col-6">
+              <label for="{{ form.parent_status.id_for_label }}" class="form-label">Situación de los padres:</label>
+              {{ form.parent_status }}
+            </div>
+
+            <div class="col-6">
+              <label for="{{ form.medu.id_for_label }}" class="form-label">Nivel de educación de la madre:</label>
+              {{ form.medu }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.fedu.id_for_label }}" class="form-label">Nivel de educación del padre:</label>
+              {{ form.fedu }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.travel_time.id_for_label }}" class="form-label">Tiempo de viaje a la escuela (h):</label>
+              {{ form.travel_time }}
+            </div>
+            <div class="col-6">
+              <label for="{{ form.study_time.id_for_label }}" class="form-label">Tiempo de estudio semanal (h):</label>
+              {{ form.study_time }}
+            </div>
+
+            <div class="col-6">
+              {% for check in form.schoolsup %}
+                <div class="form-check">
+                  {{ check.tag }}
+                  <label class="form-check-label" for="{{ check.id_for_label }}">{{ check.choice_label }}</label>
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="col-6">
+              {% for check in form.activities %}
+                <div class="form-check">
+                  {{ check.tag }}
+                  <label class="form-check-label" for="{{ check.id_for_label }}">{{ check.choice_label }}</label>
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="col-6">
+              {% for check in form.higher %}
+                <div class="form-check">
+                  {{ check.tag }}
+                  <label class="form-check-label" for="{{ check.id_for_label }}">{{ check.choice_label }}</label>
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="col-6">
+              {% for check in form.internet %}
+                <div class="form-check">
+                  {{ check.tag }}
+                  <label class="form-check-label" for="{{ check.id_for_label }}">{{ check.choice_label }}</label>
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="col-6">
+              <label for="{{ form.famrel.id_for_label }}" class="form-label">Calidad de las relaciones familiares:</label>
+              {{ form.famrel }}
+            </div>
+
+            <div class="col-6">
+              <label for="{{ form.freetime.id_for_label }}" class="form-label">Tiempo libre:</label>
+              {{ form.freetime }}
+            </div>
+
+            <div class="col-12">
+              <label for="{{ form.health.id_for_label }}" class="form-label">Estado de salud:</label>
+              {{ form.health }}
+            </div>
+
+            <div class="col-6">
+              <label for="{{ form.g1_conduct.id_for_label }}" class="form-label">Cal. conducta:</label>
+              {{ form.g1_conduct }}
+            </div>
+          </fieldset>
+
+          <h3 class="col-12" style="padding-top: 2rem; font-weight: bold;">Campos a completar:</h3>
+          <div class="col-6" style="margin-top: 0rem;">
+            <label for="{{ form.gf.id_for_label }}" class="form-label">Nota final: <span class="text-danger">*</span></label>
+            {{ form.gf }}
+          </div>
+          <div class="col-12">
+            <label for="{{ form.final_evaluation.id_for_label }}" class="form-label">Evaluación del profesor: <span class="text-danger">*</span></label>
+            {{ form.final_evaluation }}
+          </div>
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill me-3" style="vertical-align: bottom;horizontal-align:right;">Guardar evaluación</button>
+            <button type="submit" class="btn btn-danger btn-lg rounded-pill me-3" id="cancel-button" onclick="location.href = '/grades'"> Cancelar</button>
+            <a href="javascript:window.history.back();" class="btn btn-secondary btn-lg rounded-pill me-3 return-btn">Volver</a>
+          </div>          
+        </form>
+      </div>
+      <div class="col-3"></div>
+    </div>
+  </div>
+
+  <script>
+    function validateForm() {
+      let isValid = true;
+      const requiredFields = ['gf', 'final_evaluation'];
+      requiredFields.forEach(fieldName => {
+        const field = document.getElementById(`id_${fieldName}`);
+        if (field && !field.value) {
+          field.classList.add('border-danger');
+          field.classList.add('animate__animated', 'animate__shakeX');
+          if (!field.nextElementSibling || !field.nextElementSibling.classList.contains('error-message')) {
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'text-danger error-message';
+            errorMessage.textContent = 'Este campo es obligatorio';
+            field.parentNode.appendChild(errorMessage);
+          }
+          isValid = false;
+        } else if (field) {
+          field.classList.remove('border-danger', 'animate__animated', 'animate__shakeX');
+          const errorMessage = field.parentNode.querySelector('.error-message');
+          if (errorMessage) {
+            errorMessage.remove();
+          }
+        }
+      });
+      return isValid;
+    }
+
+    // Deshabilitar los campos de student_code, name, year, period, y course para que no sean editables
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("id_student_code").disabled = true;
+      document.getElementById("id_name").disabled = true;
+      document.getElementById("id_year").disabled = true;
+      document.getElementById("id_period").disabled = true;
+      document.getElementById("id_course").disabled = true;
+    });
+
+    document.querySelector('form').addEventListener('submit', function () {
+      document.getElementById("id_student_code").disabled = false;
+      document.getElementById("id_name").disabled = false;
+      document.getElementById("id_year").disabled = false;
+      document.getElementById("id_period").disabled = false;
+      document.getElementById("id_course").disabled = false;
+    });
+    
+  </script>
+{% endblock %}
